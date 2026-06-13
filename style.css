@@ -6,8 +6,7 @@
   -webkit-user-select: none;
   user-select: none;
 }
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   background: #1a0a2e;
@@ -17,6 +16,244 @@ body {
   justify-content: flex-start;
   overflow: hidden;
 }
+
+/* ==================== HALAMAN LOGIN ==================== */
+#login-page {
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  gap: 16px;
+}
+#login-page h1 {
+  font-family: "Courier New", monospace;
+  font-size: 26px;
+  color: #ffe066;
+  letter-spacing: 3px;
+  text-align: center;
+}
+#login-page .sub {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #9b8fc0;
+  letter-spacing: 1px;
+  text-align: center;
+}
+.login-box {
+  background: #2d1557;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.login-box label {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #9b8fc0;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 4px;
+}
+.login-box input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #1a0a2e;
+  border: 1.5px solid #4a2e90;
+  border-radius: 8px;
+  color: #ffe066;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  outline: none;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.login-box input:focus {
+  border-color: #9b8fc0;
+}
+.login-btn {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  width: 100%;
+}
+.login-btn:active { transform: scale(0.97); }
+.login-btn.secondary {
+  background: #3d2070;
+  border: 1.5px solid #6040a0;
+  margin-top: 0;
+}
+.login-err {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #ff6b6b;
+  text-align: center;
+  min-height: 16px;
+}
+.login-tabs {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background: #1a0a2e;
+  border: 1.5px solid #4a2e90;
+  border-radius: 8px;
+  color: #9b8fc0;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.tab-btn.active {
+  background: #4a2e90;
+  color: #ffe066;
+  border-color: #9b8fc0;
+}
+
+/* ==================== DASHBOARD ADMIN ==================== */
+#admin-page {
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.admin-header {
+  background: #2d1557;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #4a2e90;
+}
+.admin-header h2 {
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  color: #ffe066;
+  letter-spacing: 2px;
+}
+.logout-btn {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+.admin-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.admin-card {
+  background: #2d1557;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.admin-card h3 {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #9b8fc0;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.stat-row {
+  display: flex;
+  gap: 10px;
+}
+.stat-box {
+  flex: 1;
+  background: #1a0a2e;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+}
+.stat-box .sval {
+  font-family: "Courier New", monospace;
+  font-size: 22px;
+  color: #ffe066;
+  font-weight: bold;
+}
+.stat-box .slbl {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  color: #9b8fc0;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+}
+.user-table th {
+  color: #9b8fc0;
+  text-align: left;
+  padding: 6px 4px;
+  border-bottom: 1px solid #4a2e90;
+  letter-spacing: 1px;
+}
+.user-table td {
+  color: #ffe066;
+  padding: 7px 4px;
+  border-bottom: 1px solid #2d1a50;
+}
+.user-table td.online { color: #4caf50; }
+.user-table td.offline { color: #666; }
+.badge-online {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4caf50;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.badge-offline {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #555;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.admin-refresh {
+  background: #3d2070;
+  border: 1.5px solid #6040a0;
+  color: #ffe066;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  cursor: pointer;
+  width: 100%;
+  letter-spacing: 1px;
+}
+
+/* ==================== GAME WRAPPER ==================== */
 #gw {
   display: flex;
   flex-direction: column;
@@ -51,30 +288,20 @@ body {
   font-size: 16px;
   color: #ffe066;
 }
-#hp-row {
-  display: flex;
-  gap: 3px;
-}
-.heart {
-  font-size: 16px;
-  transition: transform 0.2s;
-}
-.heart.full {
-  color: #ff4444;
-}
-.heart.empty {
-  color: #442244;
-}
-#canvas-wrap {
-  position: relative;
-  width: 100%;
-}
+#hp-row { display: flex; gap: 3px; }
+.heart { font-size: 16px; transition: transform 0.2s; }
+.heart.full { color: #ff4444; }
+.heart.empty { color: #442244; }
+
+#canvas-wrap { position: relative; width: 100%; }
 #gc {
   display: block;
   width: 100%;
   image-rendering: pixelated;
   touch-action: none;
 }
+
+/* ==================== OVERLAY GAME ==================== */
 #overlay {
   position: absolute;
   inset: 0;
@@ -84,6 +311,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  overflow-y: auto;
+  padding: 16px;
 }
 #overlay h2 {
   font-family: "Courier New", monospace;
@@ -122,12 +351,61 @@ body {
   letter-spacing: 2px;
   margin-top: 6px;
 }
-#pbtn:active {
-  transform: scale(0.96);
+#pbtn:active { transform: scale(0.96); }
+#pbtn.red { background: #e74c3c; }
+
+/* Tombol logout dari game */
+#game-logout-btn {
+  background: transparent;
+  border: 1px solid #4a2e90;
+  color: #9b8fc0;
+  padding: 6px 16px;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  margin-top: 4px;
 }
-#pbtn.red {
-  background: #e74c3c;
+
+/* ==================== LEADERBOARD ==================== */
+#leaderboard-section {
+  width: 100%;
+  margin-top: 6px;
 }
+#leaderboard-section h3 {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #9b8fc0;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+}
+.lb-table th {
+  color: #9b8fc0;
+  padding: 4px 6px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #4a2e90;
+  text-align: left;
+}
+.lb-table td {
+  padding: 5px 6px;
+  color: #ffe066;
+  border-bottom: 1px solid #2d1a50;
+}
+.lb-table tr.me td { color: #4caf50; }
+.lb-rank-1 { color: #ffd700 !important; }
+.lb-rank-2 { color: #c0c0c0 !important; }
+.lb-rank-3 { color: #cd7f32 !important; }
+
+/* ==================== KONTROL ==================== */
 #controls {
   display: flex;
   justify-content: space-between;
@@ -153,6 +431,8 @@ body {
   background: #5030a0;
   transform: scale(0.95);
 }
+
+/* ==================== EFEK VISUAL ==================== */
 #combo-display {
   position: absolute;
   top: 8px;
@@ -173,3 +453,8 @@ body {
   pointer-events: none;
   overflow: hidden;
 }
+
+/* Scrollbar admin */
+.admin-body::-webkit-scrollbar { width: 4px; }
+.admin-body::-webkit-scrollbar-track { background: #1a0a2e; }
+.admin-body::-webkit-scrollbar-thumb { background: #4a2e90; border-radius: 2px; }

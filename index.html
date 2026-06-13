@@ -7,7 +7,113 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="gw">
+    <!-- ==================== HALAMAN LOGIN ==================== -->
+    <div id="login-page">
+      <div style="font-size: 48px">🍎</div>
+      <h1>TUKANG BUAH</h1>
+      <p class="sub">MASUK UNTUK BERMAIN & BERSAING SKOR</p>
+
+      <!-- Tab pilih: Login / Daftar -->
+      <div class="login-tabs">
+        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">MASUK</button>
+        <button class="tab-btn" id="tab-register" onclick="switchTab('register')">DAFTAR</button>
+      </div>
+
+      <!-- Form Login -->
+      <div class="login-box" id="form-login">
+        <div>
+          <label>USERNAME</label>
+          <input type="text" id="login-user" placeholder="masukkan username" autocomplete="off" />
+        </div>
+        <div>
+          <label>PASSWORD</label>
+          <input type="password" id="login-pass" placeholder="masukkan password" />
+        </div>
+        <div class="login-err" id="login-err"></div>
+        <button class="login-btn" onclick="doLogin()">▶ MASUK</button>
+      </div>
+
+      <!-- Form Daftar -->
+      <div class="login-box" id="form-register" style="display: none">
+        <div>
+          <label>USERNAME</label>
+          <input type="text" id="reg-user" placeholder="buat username" autocomplete="off" />
+        </div>
+        <div>
+          <label>PASSWORD</label>
+          <input type="password" id="reg-pass" placeholder="buat password" />
+        </div>
+        <div class="login-err" id="reg-err"></div>
+        <button class="login-btn" onclick="doRegister()">✚ DAFTAR</button>
+      </div>
+
+      <!-- <p class="sub" style="margin-top: 4px">Admin: <b style="color: #ffe066">admin</b> / <b style="color: #ffe066">admin123</b></p> -->
+    </div>
+
+    <!-- ==================== HALAMAN ADMIN ==================== -->
+    <div id="admin-page" style="display: none">
+      <div class="admin-header">
+        <h2>🛡 PANEL ADMIN</h2>
+        <button class="logout-btn" onclick="doLogout()">KELUAR</button>
+      </div>
+      <div class="admin-body">
+        <!-- Statistik Umum -->
+        <div class="admin-card">
+          <h3>STATISTIK</h3>
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="sval" id="adm-total-user">0</div>
+              <div class="slbl">TOTAL USER</div>
+            </div>
+            <div class="stat-box">
+              <div class="sval" id="adm-online-user">0</div>
+              <div class="slbl">ONLINE</div>
+            </div>
+            <div class="stat-box">
+              <div class="sval" id="adm-top-score">0</div>
+              <div class="slbl">SKOR TERTINGGI</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar Pengguna -->
+        <div class="admin-card">
+          <h3>DAFTAR PENGGUNA</h3>
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>USERNAME</th>
+                <th>STATUS</th>
+                <th>BEST SKOR</th>
+                <th>MAIN</th>
+              </tr>
+            </thead>
+            <tbody id="adm-user-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Leaderboard Admin -->
+        <div class="admin-card">
+          <h3>PAPAN SKOR (TOP 10)</h3>
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>USERNAME</th>
+                <th>SKOR</th>
+              </tr>
+            </thead>
+            <tbody id="adm-lb-tbody"></tbody>
+          </table>
+        </div>
+
+        <button class="admin-refresh" onclick="renderAdminPage()">⟳ PERBARUI DATA</button>
+      </div>
+    </div>
+
+    <!-- ==================== HALAMAN GAME ==================== -->
+    <div id="gw" style="display: none">
       <div id="hud">
         <div class="hud-block">
           <span class="hud-label">SKOR</span>
@@ -35,17 +141,39 @@
         <canvas id="gc"></canvas>
         <div id="combo-display"></div>
         <div id="floats"></div>
+
         <div id="overlay">
           <div style="font-size: 48px">🍎</div>
           <h2>TUKANG BUAH</h2>
           <div class="sub">TANGKAP BUAH — HINDARI SAMPAH</div>
-          <div style="height: 6px"></div>
+          <div id="user-greeting" class="sub" style="color: #ffe066"></div>
+          <div style="height: 4px"></div>
+
+          <!-- Blok skor akhir (tampil saat game over) -->
           <div id="fs-block" style="display: none; flex-direction: column; align-items: center; gap: 2px">
             <div class="final-label">SKOR AKHIR</div>
             <div class="final-score" id="fs">0</div>
+            <div class="sub" id="best-label"></div>
           </div>
+
+          <!-- Leaderboard di overlay -->
+          <div id="leaderboard-section" style="display: none">
+            <h3>🏆 PAPAN SKOR</h3>
+            <table class="lb-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>USERNAME</th>
+                  <th>SKOR</th>
+                </tr>
+              </thead>
+              <tbody id="lb-tbody"></tbody>
+            </table>
+          </div>
+
           <button id="pbtn" onclick="startGame()">▶ MULAI</button>
-          <div class="sub" style="margin-top: 6px">Tombol bawah • Geser layar • Keyboard ← →</div>
+          <div class="sub" style="margin-top: 4px">Tombol bawah • Geser layar • Keyboard ← →</div>
+          <button id="game-logout-btn" onclick="doLogout()">Keluar Akun</button>
         </div>
       </div>
 
