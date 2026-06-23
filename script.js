@@ -57,8 +57,7 @@ function showPage(page) {
   } else if (page === "game") {
     document.getElementById("gw").style.display = "flex";
     // Tampilkan nama user di overlay
-    document.getElementById("user-greeting").textContent =
-      "Halo, " + currentUser + "! 👋";
+    document.getElementById("user-greeting").textContent = "Halo, " + currentUser + "! 👋";
     renderLeaderboard();
   }
 }
@@ -66,14 +65,10 @@ function showPage(page) {
 // ==================== TAB LOGIN / DAFTAR ====================
 
 function switchTab(tab) {
-  document.getElementById("tab-login").className =
-    "tab-btn" + (tab === "login" ? " active" : "");
-  document.getElementById("tab-register").className =
-    "tab-btn" + (tab === "register" ? " active" : "");
-  document.getElementById("form-login").style.display =
-    tab === "login" ? "flex" : "none";
-  document.getElementById("form-register").style.display =
-    tab === "register" ? "flex" : "none";
+  document.getElementById("tab-login").className = "tab-btn" + (tab === "login" ? " active" : "");
+  document.getElementById("tab-register").className = "tab-btn" + (tab === "register" ? " active" : "");
+  document.getElementById("form-login").style.display = tab === "login" ? "flex" : "none";
+  document.getElementById("form-register").style.display = tab === "register" ? "flex" : "none";
   document.getElementById("login-err").textContent = "";
   document.getElementById("reg-err").textContent = "";
 }
@@ -205,9 +200,7 @@ function renderAdminPage() {
     allUsers.sort((a, b) => (b[1].bestScore || 0) - (a[1].bestScore || 0));
     allUsers.forEach(([uname, data], i) => {
       const isOnline = data.online;
-      const lastSeen = data.lastSeen
-        ? new Date(data.lastSeen).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
-        : "-";
+      const lastSeen = data.lastSeen ? new Date(data.lastSeen).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) : "-";
       tbody.innerHTML += `
         <tr>
           <td>${i + 1}</td>
@@ -299,7 +292,9 @@ function renderLeaderboard() {
 
 const canvas = document.getElementById("gc");
 const ctx = canvas.getContext("2d");
-const CW = 360, CH = 480, GROUND = CH - 24;
+const CW = 360,
+  CH = 480,
+  GROUND = CH - 24;
 
 canvas.width = CW;
 canvas.height = CH;
@@ -312,9 +307,20 @@ const resize = () => {
 window.addEventListener("resize", resize);
 resize();
 
-let score = 0, hp = 3, level = 1, combo = 1, comboTimer = 0;
-let gameRunning = false, frameCount = 0, lastTime = 0;
-let player, items = [], keys = {}, leftHeld = false, rightHeld = false, swipeStartX = null;
+let score = 0,
+  hp = 3,
+  level = 1,
+  combo = 1,
+  comboTimer = 0;
+let gameRunning = false,
+  frameCount = 0,
+  lastTime = 0;
+let player,
+  items = [],
+  keys = {},
+  leftHeld = false,
+  rightHeld = false,
+  swipeStartX = null;
 
 const FRUITS = [
   { em: "🍎", type: "fruit", pts: 1 },
@@ -400,7 +406,8 @@ function drawBg() {
 // Gambar karakter pemain
 function drawPlayer() {
   const p = player;
-  const bx = Math.round(p.x - p.w / 2), by = Math.round(GROUND - p.h);
+  const bx = Math.round(p.x - p.w / 2),
+    by = Math.round(GROUND - p.h);
   // Kaki
   ctx.fillStyle = "#111";
   ctx.fillRect(bx + 2, by + 36, (p.w - 8) / 2 + 2, 5);
@@ -449,9 +456,7 @@ function drawItem(it) {
 }
 
 // Deteksi tabrakan item dengan pemain
-const collide = (it) =>
-  Math.abs(it.x - player.x) < player.w / 2 + it.size / 2.2 &&
-  Math.abs(it.y - (GROUND - player.h / 2)) < player.h / 2 + it.size / 2.5;
+const collide = (it) => Math.abs(it.x - player.x) < player.w / 2 + it.size / 2.2 && Math.abs(it.y - (GROUND - player.h / 2)) < player.h / 2 + it.size / 2.5;
 
 // Spawn item baru dari atas
 function spawnItem() {
@@ -482,13 +487,22 @@ function gameLoop(ts) {
   const movL = leftHeld || keys["ArrowLeft"] || keys["a"] || keys["A"];
   const movR = rightHeld || keys["ArrowRight"] || keys["d"] || keys["D"];
   player.moving = movL || movR;
-  if (movL) { player.x -= player.speed * dt; player.facing = -1; }
-  if (movR) { player.x += player.speed * dt; player.facing = 1; }
+  if (movL) {
+    player.x -= player.speed * dt;
+    player.facing = -1;
+  }
+  if (movR) {
+    player.x += player.speed * dt;
+    player.facing = 1;
+  }
   player.x = Math.max(player.w / 2 + 2, Math.min(CW - player.w / 2 - 2, player.x));
 
   // Timer combo
   comboTimer = Math.max(0, comboTimer - dt);
-  if (comboTimer <= 0 && combo > 1) { combo = 1; updateHUD(); }
+  if (comboTimer <= 0 && combo > 1) {
+    combo = 1;
+    updateHUD();
+  }
 
   // Spawn item secara berkala
   if (frameCount % Math.round(Math.max(50 - level * 6, 20)) === 0) spawnItem();
@@ -529,8 +543,13 @@ function gameLoop(ts) {
 
 // Mulai game baru
 function startGame() {
-  score = 0; hp = 3; level = 1; combo = 1; comboTimer = 0;
-  items = []; frameCount = 0;
+  score = 0;
+  hp = 3;
+  level = 1;
+  combo = 1;
+  comboTimer = 0;
+  items = [];
+  frameCount = 0;
   player = { x: CW / 2, y: 0, w: 34, h: 40, speed: 5, facing: 1, moving: false };
   document.getElementById("overlay").style.display = "none";
   document.getElementById("fs-block").style.display = "none";
@@ -580,7 +599,8 @@ document.addEventListener("keydown", (e) => {
     const loginVisible = document.getElementById("login-page").style.display !== "none";
     if (loginVisible) {
       const isLogin = document.getElementById("form-login").style.display !== "none";
-      if (isLogin) doLogin(); else doRegister();
+      if (isLogin) doLogin();
+      else doRegister();
     }
   }
 });
@@ -592,24 +612,33 @@ document.addEventListener("keyup", (e) => (keys[e.key] = false));
 const bindControl = (id, setFlag) => {
   const el = document.getElementById(id);
   ["touchstart", "mousedown"].forEach((ev) =>
-    el.addEventListener(ev, (e) => { setFlag(true); e.preventDefault(); }, { passive: false })
+    el.addEventListener(
+      ev,
+      (e) => {
+        setFlag(true);
+        e.preventDefault();
+      },
+      { passive: false },
+    ),
   );
-  ["touchend", "mouseup", "mouseleave"].forEach((ev) =>
-    el.addEventListener(ev, () => setFlag(false))
-  );
+  ["touchend", "mouseup", "mouseleave"].forEach((ev) => el.addEventListener(ev, () => setFlag(false)));
 };
 bindControl("btn-left", (val) => (leftHeld = val));
 bindControl("btn-right", (val) => (rightHeld = val));
 
 // Kontrol geser (swipe) di canvas
 canvas.addEventListener("touchstart", (e) => (swipeStartX = e.touches[0].clientX), { passive: true });
-canvas.addEventListener("touchmove", (e) => {
-  if (swipeStartX === null) return;
-  const dx = e.touches[0].clientX - swipeStartX;
-  leftHeld = dx < -8;
-  rightHeld = dx > 8;
-  e.preventDefault();
-}, { passive: false });
+canvas.addEventListener(
+  "touchmove",
+  (e) => {
+    if (swipeStartX === null) return;
+    const dx = e.touches[0].clientX - swipeStartX;
+    leftHeld = dx < -8;
+    rightHeld = dx > 8;
+    e.preventDefault();
+  },
+  { passive: false },
+);
 canvas.addEventListener("touchend", () => {
   leftHeld = rightHeld = false;
   swipeStartX = null;

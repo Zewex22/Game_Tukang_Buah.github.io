@@ -1,191 +1,334 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tukang Buah</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- ==================== HALAMAN LOGIN ==================== -->
-    <div id="login-page">
-      <div style="font-size: 48px">🍎</div>
-      <h1>TUKANG BUAH</h1>
-      <p class="sub">MASUK UNTUK BERMAIN & BERSAING SKOR</p>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tukang Buah</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
 
-      <!-- Tab pilih: Login / Daftar -->
-      <div class="login-tabs">
-        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">MASUK</button>
-        <button class="tab-btn" id="tab-register" onclick="switchTab('register')">DAFTAR</button>
-      </div>
-
-      <!-- Form Login -->
-      <div class="login-box" id="form-login">
-        <div>
-          <label>USERNAME</label>
-          <input type="text" id="login-user" placeholder="masukkan username" autocomplete="off" />
-        </div>
-        <div>
-          <label>PASSWORD</label>
-          <input type="password" id="login-pass" placeholder="masukkan password" />
-        </div>
-        <div class="login-err" id="login-err"></div>
-        <button class="login-btn" onclick="doLogin()">▶ MASUK</button>
-      </div>
-
-      <!-- Form Daftar -->
-      <div class="login-box" id="form-register" style="display: none">
-        <div>
-          <label>USERNAME</label>
-          <input type="text" id="reg-user" placeholder="buat username" autocomplete="off" />
-        </div>
-        <div>
-          <label>PASSWORD</label>
-          <input type="password" id="reg-pass" placeholder="buat password" />
-        </div>
-        <div class="login-err" id="reg-err"></div>
-        <button class="login-btn" onclick="doRegister()">✚ DAFTAR</button>
-      </div>
-
-      <!-- <p class="sub" style="margin-top: 4px">Admin: <b style="color: #ffe066">admin</b> / <b style="color: #ffe066">admin123</b></p> -->
+<!-- ════════════════════════════════════════════════════════════
+     POPUP ATURAN PERMAINAN
+     ════════════════════════════════════════════════════════════ -->
+<div id="rules-popup" style="display:none">
+  <div class="rules-box">
+    <div class="rules-header">
+      <span>📜 ATURAN PERMAINAN</span>
+      <button class="rules-close" onclick="closeRules()">✕</button>
     </div>
+    <div class="rules-body">
+      <div class="rule-row">🍎 <span>Tangkap buah untuk mendapatkan skor</span></div>
+      <div class="rule-row">🍍 <span>Buah langka (nanas, mangga) = skor lebih tinggi</span></div>
+      <div class="rule-row">💀 <span>Hindari sampah & bom — mengurangi HP</span></div>
+      <div class="rule-row">⭐ <span>Bintang & Berlian = item bonus dengan poin besar</span></div>
+      <div class="rule-row">🔥 <span>Kumpulkan <b>10 combo</b> berturut-turut → <b>SKOR GANDA</b> selama beberapa detik!</span></div>
+      <div class="rule-row">❤️ <span>HP habis → Game Over. Kamu punya 3 nyawa</span></div>
+      <div class="rule-row">⬆️ <span>Level naik setiap kelipatan skor tertentu (max Level 10)</span></div>
+      <div class="rule-row">💨 <span>Makin tinggi level → buah makin cepat & banyak rintangan</span></div>
+      <hr class="rules-hr"/>
+      <div class="rule-row">⌨️ <span>Kontrol: Tombol ◀ ▶ | Keyboard ← → | Geser layar</span></div>
+      <div class="rule-row">🏆 <span>Skor terbaikmu akan masuk <b>Papan Skor Global</b></span></div>
+    </div>
+    <button class="rules-ok" onclick="closeRules()">✅ MENGERTI, MULAI MAIN!</button>
+  </div>
+</div>
 
-    <!-- ==================== HALAMAN ADMIN ==================== -->
-    <div id="admin-page" style="display: none">
-      <div class="admin-header">
-        <h2>🛡 PANEL ADMIN</h2>
-        <button class="logout-btn" onclick="doLogout()">KELUAR</button>
-      </div>
-      <div class="admin-body">
-        <!-- Statistik Umum -->
-        <div class="admin-card">
-          <h3>STATISTIK</h3>
-          <div class="stat-row">
-            <div class="stat-box">
-              <div class="sval" id="adm-total-user">0</div>
-              <div class="slbl">TOTAL USER</div>
-            </div>
-            <div class="stat-box">
-              <div class="sval" id="adm-online-user">0</div>
-              <div class="slbl">ONLINE</div>
-            </div>
-            <div class="stat-box">
-              <div class="sval" id="adm-top-score">0</div>
-              <div class="slbl">SKOR TERTINGGI</div>
-            </div>
+<!-- ════════════════════════════════════════════════════════════
+     HALAMAN LOGIN
+     ════════════════════════════════════════════════════════════ -->
+<div id="login-page">
+  <div style="font-size:52px;line-height:1">🍎</div>
+  <h1>TUKANG BUAH</h1>
+  <p class="sub">MASUK & BERSAING SKOR TERTINGGI!</p>
+
+  <div class="login-tabs">
+    <button class="tab-btn active" id="tab-login"    onclick="switchTab('login')">MASUK</button>
+    <button class="tab-btn"        id="tab-register" onclick="switchTab('register')">DAFTAR</button>
+  </div>
+
+  <!-- Form Login -->
+  <div class="login-box" id="form-login">
+    <div>
+      <label>USERNAME</label>
+      <input type="text"     id="login-user" placeholder="masukkan username" autocomplete="off"/>
+    </div>
+    <div>
+      <label>PASSWORD</label>
+      <input type="password" id="login-pass" placeholder="masukkan password"/>
+    </div>
+    <div class="login-err" id="login-err"></div>
+    <button class="login-btn" onclick="doLogin()">▶ MASUK</button>
+  </div>
+
+  <!-- Form Daftar -->
+  <div class="login-box" id="form-register" style="display:none">
+    <div>
+      <label>NAMA LENGKAP</label>
+      <input type="text"  id="reg-nama"  placeholder="nama lengkap kamu" autocomplete="off"/>
+    </div>
+    <div>
+      <label>EMAIL</label>
+      <input type="email" id="reg-email" placeholder="email@contoh.com"/>
+    </div>
+    <div>
+      <label>USERNAME</label>
+      <input type="text"     id="reg-user" placeholder="buat username (min. 3 karakter)" autocomplete="off"/>
+    </div>
+    <div>
+      <label>PASSWORD</label>
+      <input type="password" id="reg-pass" placeholder="buat password (min. 4 karakter)"/>
+    </div>
+    <div class="login-err" id="reg-err"></div>
+    <button class="login-btn" onclick="doRegister()">✚ DAFTAR SEKARANG</button>
+  </div>
+
+  <p class="sub" style="margin-top:6px;font-size:10px">
+    Admin: <b style="color:#ffe066">admin</b> / <b style="color:#ffe066">admin123</b>
+  </p>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     HALAMAN ADMIN
+     ════════════════════════════════════════════════════════════ -->
+<div id="admin-page" style="display:none">
+  <div class="admin-header">
+    <h2>🛡 PANEL ADMIN</h2>
+    <button class="logout-btn" onclick="doLogout()">KELUAR</button>
+  </div>
+
+  <!-- Tab admin -->
+  <div class="admin-tabs">
+    <button class="atab active" onclick="switchAdminTab('stats',this)">📊 STATISTIK</button>
+    <button class="atab"        onclick="switchAdminTab('users',this)">👥 PEMAIN</button>
+    <button class="atab"        onclick="switchAdminTab('lb',this)">🏆 SKOR</button>
+    <button class="atab"        onclick="switchAdminTab('config',this)">⚙️ SETTING</button>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- TAB: Statistik -->
+    <div class="admin-tab-content" id="atab-stats">
+      <div class="admin-card">
+        <h3>RINGKASAN</h3>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="sval" id="adm-total-user">0</div>
+            <div class="slbl">TOTAL USER</div>
+          </div>
+          <div class="stat-box">
+            <div class="sval" id="adm-online-user">0</div>
+            <div class="slbl">ONLINE</div>
+          </div>
+          <div class="stat-box">
+            <div class="sval" id="adm-total-games">0</div>
+            <div class="slbl">TOTAL MAIN</div>
           </div>
         </div>
+        <div class="stat-row" style="margin-top:8px">
+          <div class="stat-box" style="flex:2">
+            <div class="sval" id="adm-top-score">0</div>
+            <div class="slbl">SKOR TERTINGGI</div>
+          </div>
+          <div class="stat-box" style="flex:3">
+            <div class="sval" id="adm-top-player" style="font-size:13px">-</div>
+            <div class="slbl">PEMEGANG REKOR</div>
+          </div>
+        </div>
+      </div>
+      <button class="admin-refresh" onclick="renderAdminPage()">⟳ PERBARUI DATA</button>
+    </div>
 
-        <!-- Daftar Pengguna -->
-        <div class="admin-card">
-          <h3>DAFTAR PENGGUNA</h3>
+    <!-- TAB: Daftar Pemain -->
+    <div class="admin-tab-content" id="atab-users" style="display:none">
+      <div class="admin-card">
+        <h3>DAFTAR PEMAIN</h3>
+        <div style="overflow-x:auto">
           <table class="user-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>USERNAME</th>
-                <th>STATUS</th>
-                <th>BEST SKOR</th>
-                <th>MAIN</th>
+                <th>#</th><th>NAMA / USERNAME</th><th>EMAIL</th>
+                <th>STATUS</th><th>BEST</th><th>MAIN</th><th>AKSI</th>
               </tr>
             </thead>
             <tbody id="adm-user-tbody"></tbody>
           </table>
         </div>
+      </div>
+      <button class="admin-refresh" onclick="renderAdminUsers()">⟳ PERBARUI</button>
+    </div>
 
-        <!-- Leaderboard Admin -->
-        <div class="admin-card">
-          <h3>PAPAN SKOR (TOP 10)</h3>
+    <!-- TAB: Leaderboard -->
+    <div class="admin-tab-content" id="atab-lb" style="display:none">
+      <div class="admin-card">
+        <h3>PAPAN SKOR TOP 15</h3>
+        <div style="overflow-x:auto">
           <table class="lb-table">
             <thead>
-              <tr>
-                <th>#</th>
-                <th>USERNAME</th>
-                <th>SKOR</th>
-              </tr>
+              <tr><th>#</th><th>NAMA</th><th>USERNAME</th><th>SKOR</th><th>LEVEL</th><th>TANGGAL</th></tr>
             </thead>
             <tbody id="adm-lb-tbody"></tbody>
           </table>
         </div>
+      </div>
+      <button class="admin-refresh danger" onclick="adminResetLB()">🗑 RESET PAPAN SKOR</button>
+    </div>
 
-        <button class="admin-refresh" onclick="renderAdminPage()">⟳ PERBARUI DATA</button>
+    <!-- TAB: Konfigurasi -->
+    <div class="admin-tab-content" id="atab-config" style="display:none">
+      <div class="admin-card">
+        <h3>⚙️ PENGATURAN GAME</h3>
+        <div class="cfg-row">
+          <label>HP Awal Pemain</label>
+          <input type="number" id="cfg-hp" min="1" max="10" class="cfg-input"/>
+        </div>
+        <div class="cfg-row">
+          <label>Combo untuk Bonus Skor Ganda</label>
+          <input type="number" id="cfg-bonus-trigger" min="3" max="30" class="cfg-input"/>
+        </div>
+        <div class="cfg-row">
+          <label>Durasi Bonus Ganda (detik)</label>
+          <input type="number" id="cfg-bonus-durasi" min="3" max="30" class="cfg-input"/>
+        </div>
+        <div class="cfg-row">
+          <label>Skor per Kenaikan Level</label>
+          <input type="number" id="cfg-skor-level" min="5" max="100" class="cfg-input"/>
+        </div>
+        <div class="cfg-row">
+          <label>Kesulitan Default</label>
+          <select id="cfg-kesulitan" class="cfg-input">
+            <option value="mudah">Mudah</option>
+            <option value="sedang">Sedang</option>
+            <option value="sulit">Sulit</option>
+            <option value="sangat_sulit">Sangat Sulit</option>
+          </select>
+        </div>
+        <button class="login-btn" style="margin-top:10px" onclick="adminSaveConfig()">💾 SIMPAN KONFIGURASI</button>
       </div>
     </div>
 
-    <!-- ==================== HALAMAN GAME ==================== -->
-    <div id="gw" style="display: none">
-      <div id="hud">
-        <div class="hud-block">
-          <span class="hud-label">SKOR</span>
-          <span class="hud-val" id="sv">0</span>
-        </div>
-        <div class="hud-block">
-          <span class="hud-label">LEVEL</span>
-          <span class="hud-val" id="lv">1</span>
-        </div>
-        <div class="hud-block">
-          <span class="hud-label">HP</span>
-          <div id="hp-row">
-            <span id="h1" class="heart full">♥</span>
-            <span id="h2" class="heart full">♥</span>
-            <span id="h3" class="heart full">♥</span>
-          </div>
-        </div>
-        <div class="hud-block">
-          <span class="hud-label">COMBO</span>
-          <span class="hud-val" id="cv">x1</span>
-        </div>
-      </div>
+  </div><!-- /admin-body -->
+</div><!-- /admin-page -->
 
-      <div id="canvas-wrap">
-        <canvas id="gc"></canvas>
-        <div id="combo-display"></div>
-        <div id="floats"></div>
+<!-- ════════════════════════════════════════════════════════════
+     HALAMAN GAME
+     ════════════════════════════════════════════════════════════ -->
+<div id="gw" style="display:none">
 
-        <div id="overlay">
-          <div style="font-size: 48px">🍎</div>
-          <h2>TUKANG BUAH</h2>
-          <div class="sub">TANGKAP BUAH — HINDARI SAMPAH</div>
-          <div id="user-greeting" class="sub" style="color: #ffe066"></div>
-          <div style="height: 4px"></div>
-
-          <!-- Blok skor akhir (tampil saat game over) -->
-          <div id="fs-block" style="display: none; flex-direction: column; align-items: center; gap: 2px">
-            <div class="final-label">SKOR AKHIR</div>
-            <div class="final-score" id="fs">0</div>
-            <div class="sub" id="best-label"></div>
-          </div>
-
-          <!-- Leaderboard di overlay -->
-          <div id="leaderboard-section" style="display: none">
-            <h3>🏆 PAPAN SKOR</h3>
-            <table class="lb-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>USERNAME</th>
-                  <th>SKOR</th>
-                </tr>
-              </thead>
-              <tbody id="lb-tbody"></tbody>
-            </table>
-          </div>
-
-          <button id="pbtn" onclick="startGame()">▶ MULAI</button>
-          <div class="sub" style="margin-top: 4px">Tombol bawah • Geser layar • Keyboard ← →</div>
-          <button id="game-logout-btn" onclick="doLogout()">Keluar Akun</button>
-        </div>
-      </div>
-
-      <div id="controls">
-        <div class="cbtn" id="btn-left">◀</div>
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #6040a0; font-family: monospace; font-size: 10px; gap: 2px">
-          <span>GERAK</span>
-        </div>
-        <div class="cbtn" id="btn-right">▶</div>
+  <!-- HUD atas -->
+  <div id="hud">
+    <div class="hud-block">
+      <span class="hud-label">SKOR</span>
+      <span class="hud-val" id="sv">0</span>
+    </div>
+    <div class="hud-block">
+      <span class="hud-label">LEVEL</span>
+      <span class="hud-val" id="lv">1/10</span>
+    </div>
+    <div class="hud-block">
+      <span class="hud-label">HP</span>
+      <div id="hp-row">
+        <span id="h1" class="heart full">♥</span>
+        <span id="h2" class="heart full">♥</span>
+        <span id="h3" class="heart full">♥</span>
       </div>
     </div>
+    <div class="hud-block">
+      <span class="hud-label">COMBO</span>
+      <span class="hud-val" id="cv">1X</span>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <!-- Bar progress level -->
+  <div id="level-bar"><div id="level-fill"></div></div>
+
+  <!-- Bar bonus aktif -->
+  <div id="bonus-bar" style="display:none">
+    <span id="bonus-label">🔥 SKOR GANDA</span>
+    <div id="bonus-track"><div id="bonus-fill"></div></div>
+  </div>
+
+  <!-- Canvas area -->
+  <div id="canvas-wrap">
+    <canvas id="gc"></canvas>
+    <div id="combo-display"></div>
+    <div id="floats"></div>
+
+    <!-- Overlay utama -->
+    <div id="overlay">
+      <div style="font-size:48px">🍎</div>
+      <h2>TUKANG BUAH</h2>
+      <div class="sub">TANGKAP BUAH — HINDARI SAMPAH</div>
+      <div id="user-greeting" class="sub" style="color:#ffe066"></div>
+
+      <!-- Skor akhir -->
+      <div id="fs-block" style="display:none;flex-direction:column;align-items:center;gap:3px">
+        <div class="final-label">SKOR AKHIR</div>
+        <div class="final-score" id="fs">0</div>
+        <div class="sub" id="fs-level"></div>
+        <div class="sub" id="best-label"></div>
+      </div>
+
+      <!-- Pilih kesulitan -->
+      <div id="difficulty-picker">
+        <div class="sub" style="margin-bottom:6px;letter-spacing:1px">TINGKAT KESULITAN</div>
+        <div class="diff-row">
+          <button class="diff-btn" data-d="mudah"       onclick="setDifficulty('mudah')">😊<br>MUDAH</button>
+          <button class="diff-btn active" data-d="sedang"     onclick="setDifficulty('sedang')">😐<br>SEDANG</button>
+          <button class="diff-btn" data-d="sulit"       onclick="setDifficulty('sulit')">😤<br>SULIT</button>
+          <button class="diff-btn" data-d="sangat_sulit" onclick="setDifficulty('sangat_sulit')">💀<br>SANGAT<br>SULIT</button>
+        </div>
+      </div>
+
+      <!-- Leaderboard mini -->
+      <div id="leaderboard-section" style="display:none">
+        <h3>🏆 PAPAN SKOR GLOBAL</h3>
+        <table class="lb-table">
+          <thead>
+            <tr><th>#</th><th>NAMA</th><th>SKOR</th><th>LV</th></tr>
+          </thead>
+          <tbody id="lb-tbody"></tbody>
+        </table>
+      </div>
+
+      <button id="pbtn" onclick="startGame()">▶ MULAI</button>
+      <button class="rules-trigger" onclick="showRules()">📜 Aturan Permainan</button>
+      <div class="sub" style="margin-top:2px;font-size:10px">Tombol ◀▶ • Geser layar • Keyboard ← →</div>
+      <button id="game-logout-btn" onclick="doLogout()">Keluar Akun</button>
+    </div>
+  </div>
+
+  <!-- Kontrol virtual -->
+  <div id="controls">
+    <div class="cbtn" id="btn-left">◀</div>
+    <div class="ctrl-mid">
+      <span style="font-size:10px;color:#6040a0;font-family:monospace">GERAK</span>
+    </div>
+    <div class="cbtn" id="btn-right">▶</div>
+  </div>
+
+</div><!-- /gw -->
+
+<!-- Load semua script secara berurutan -->
+<script src="db.js"></script>
+<script src="auth.js"></script>
+<script src="admin.js"></script>
+<script src="game.js"></script>
+<script src="ui.js"></script>
+
+<!-- Fungsi tab admin (inline agar tidak bergantung urutan load) -->
+<script>
+function switchAdminTab(tab, btn) {
+  ["stats","users","lb","config"].forEach(t => {
+    document.getElementById("atab-" + t).style.display = t === tab ? "flex" : "none";
+  });
+  document.querySelectorAll(".atab").forEach(b => b.className = "atab");
+  if (btn) btn.className = "atab active";
+  if (tab === "users")  renderAdminUsers();
+  if (tab === "lb")     renderAdminLB();
+  if (tab === "config") renderAdminConfig();
+}
+</script>
+
+</body>
 </html>
